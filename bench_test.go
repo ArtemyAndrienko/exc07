@@ -6,8 +6,9 @@ import (
 
 func BenchmarkWithoutPool(b *testing.B) {
 	var cc *Counter
+	b.ReportAllocs()
 	b.ResetTimer()
-	for i := 0; i < 10; i++ {
+	for i := 0; i < b.N; i++ {
 		for j := 0; j < 10000; j++ {
 			cc = &Counter{A: 0, B: 1}
 			b.StopTimer()
@@ -19,8 +20,9 @@ func BenchmarkWithoutPool(b *testing.B) {
 
 func BenchmarkWithPool(b *testing.B) {
 	var cc *Counter
+	b.ReportAllocs()
 	b.ResetTimer()
-	for i := 0; i < 10; i++ {
+	for i := 0; i < b.N; i++ {
 		for j := 0; j < 10000; j++ {
 			cc = counterPool.Get().(*Counter)
 			b.StopTimer()
